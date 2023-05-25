@@ -10,5 +10,6 @@ public class StdinandStdout1 {
         System.out.println(a);
         System.out.println(b);
         System.out.println(c);
+        scan.close();
     }
 }

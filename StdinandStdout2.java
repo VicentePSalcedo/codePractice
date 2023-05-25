@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 public class StdinandStdout2 {
@@ -7,7 +6,7 @@ public class StdinandStdout2 {
         Scanner scan = new Scanner(System.in);
         int i = scan.nextInt();
         double d = scan.nextDouble();
-        String e = scan.nextLine();
+        scan.nextLine();
         String s = scan.nextLine();
 
         System.out.println("String: " + s);
