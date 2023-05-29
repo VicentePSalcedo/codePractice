@@ -8,11 +8,17 @@ public class CurrencyFormatter{
         double payment = sc.nextDouble();
         sc.close();
 
-        NumberFormat usFormat = NumberFormat.getCurrencyInstance(usa);
-        double us = usFormat.format(payment);
-        double india = payment;
-        double china = payment;
-        double france = payment;
+        NumberFormat dollar = NumberFormat.getCurrencyInstance(Locale.US);
+        String us = dollar.format(payment);
+
+        NumberFormat rupee = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        String india = rupee.format(payment);
+
+        NumberFormat rinminbi = NumberFormat.getCurrencyInstance(Locale.CHINA);
+        String china = rinminbi.format(payment);
+        
+        NumberFormat euro = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+        String france = euro.format(payment);
 
         System.out.println("US: " + us);
         System.out.println("India: " + india);
