@@ -20,8 +20,8 @@ class Result {
 
     public static String findDay(int month, int day, int year) {
         Calendar cal = Calendar.getInstance();
-        cal.set(year, month, day);
-        int dayoftheweek = cal.get(Calendar.DAY_OF_WEEK);
+        cal.set(year, month-1, day-1);
+        int dayoftheweek = cal.get(cal.DAY_OF_WEEK);
         switch (dayoftheweek) {
             case 1:
                 return "MONDAY";
@@ -46,23 +46,27 @@ class Result {
 
 public class DateandTime {
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+        // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        //BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+        //String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-        int month = Integer.parseInt(firstMultipleInput[0]);
+        // int month = Integer.parseInt(firstMultipleInput[0]);
+        int month = 8;
 
-        int day = Integer.parseInt(firstMultipleInput[1]);
+        // int day = Integer.parseInt(firstMultipleInput[1]);
+        int day = 5;
 
-        int year = Integer.parseInt(firstMultipleInput[2]);
+        // int year = Integer.parseInt(firstMultipleInput[2]);
+        int year = 2015;
 
         String res = Result.findDay(month, day, year);
 
-        bufferedWriter.write(res);
-        bufferedWriter.newLine();
+        // bufferedWriter.write(res);
+        // bufferedWriter.newLine();
+        System.out.print(res);
 
-        bufferedReader.close();
-        bufferedWriter.close();
+        // bufferedReader.close();
+        // bufferedWriter.close();
     }
 }
