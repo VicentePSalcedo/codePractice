@@ -2,16 +2,18 @@ import java.util.Scanner;
 
 public class SubstringComparisons {
     public static String getSmallestAndLargest(String s, int k){
-        String sub = s.substring(0, k);
-        String smallest = sub;
-        String largest = sub;
-        while(k < s.length()){
-            if (sub.compareTo(smallest)<0){
+        String smallest = s.substring(0, k);
+        String largest = s.substring(0, k);
+        int i = 0;
+        while(k <= s.length()) {
+            String sub = s.substring(i, k);
+            if (sub.compareTo(smallest) < 0) {
                 smallest = sub;
             }
-            if (sub.compareTo(largest)>0){
+            if (sub.compareTo(largest) > 0) {
                 largest = sub;
             }
+            i++;
             k++;
         }
         return smallest + "\n" + largest;
