@@ -9,7 +9,9 @@ public class IntToString {
             Scanner sc = new Scanner(System.in);
             int input = sc.nextInt();
             String output = Integer.toString(input);
+            System.out.println(output);
             System.out.println("Good job");
+            sc.close();
         } catch (InputMismatchException e){
             System.out.println("Wrong answer");
         }

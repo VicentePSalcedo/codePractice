@@ -1,57 +1,64 @@
+
 import java.io.*;
 import java.util.*;
-import java.text.*;
-import java.math.*;
 import java.util.regex.*;
 
 public class TagContentExtractor {
     public static void main (String[] args){
+        
         BufferedReader reader;
+        String validHTMLregex = "(<[a-zA-Z][^>]*>)([^<>]+)(</[a-zA-Z][^>]*>)";
+        
         try {
-            reader = new BufferedReader(new FileReader("./tests/TagContentExtractor.txt"));
+        
+            reader = new BufferedReader(new FileReader("./tests/test.txt"));
             int testCases = Integer.parseInt(reader.readLine());
-            ArrayList<String> currentStringArray = new ArrayList<>();
+            ArrayList<String> finalOutput = new ArrayList<>();
             while(testCases>0){
                 String line = reader.readLine();
-                String parsedLine = validateAndRemoveHTMLTags(line);
-                currentStringArray.add(parsedLine);
+                ArrayList<String> parsedLine = parseValidHTML(validHTMLregex, line);
+                finalOutput.addAll(parsedLine);
                 testCases--;
             }
-            printArrayList(currentStringArray);
+            
+            printArrayList(finalOutput);
+        
         } catch (IOException e) {
             e.printStackTrace(); 
         }
-        // Scanner in = new Scanner (System.in);
-        // int testCases = Integer.parseInt(in.nextLine());
-        // ArrayList<String> currentStringArray = new ArrayList<>();
-
-        // while(testCases>0) {
-        //     String line = in.nextLine();
-        //     String parsedLine = validateAndRemoveHTMLTags(line);
-        //     currentStringArray.add(parsedLine);
-        //     testCases--;
-        // }
-
-        // printArrayList(currentStringArray);
-        // in.close();
     }
 
-    public static String validateAndRemoveHTMLTags(String line){
-        Pattern pattern = Pattern.compile("<(.+)>([^<]+)</\\\\1>");
+    public static ArrayList<String> parseValidHTML(String regex, String line) {
+        Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
-        String parsedLine;
+        ArrayList<String> parsedLine = new ArrayList<>();
         if(matcher.find()){
-            parsedLine = matcher.group(2);
+            matcher.reset();
+            while (matcher.find()) {
+                String startTag = matcher.group(1);
+                String endTag = matcher.group(3);
+                if (matchStartAndEndTags(startTag, endTag)) {
+                    parsedLine.add(matcher.group(2));
+                } else {
+                    parsedLine.add("None");
+                }
+            }
         } else {
-            parsedLine = "None";
+            parsedLine.add("None");
         }
         return parsedLine;
     }
-    
-    public static void printArrayList(ArrayList<String> currentStringArray){
-        for (int i = 0; i < currentStringArray.size(); i++){
-            System.out.println(currentStringArray.get(i));
-        }
 
+    public static boolean matchStartAndEndTags(String startTag, String endTag) {
+        if (startTag.substring(1).endsWith((endTag.substring(2)))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void printArrayList(ArrayList<String> output) {
+        for (int i = 0; i < output.size(); i++) {
+            System.out.println(output.get(i));
+        }
     }
 }
