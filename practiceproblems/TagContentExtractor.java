@@ -22,7 +22,8 @@ public class TagContentExtractor {
             }
             
             printArrayList(finalOutput);
-        
+            printToFile(finalOutput);
+            
         } catch (IOException e) {
             e.printStackTrace(); 
         }
@@ -59,6 +60,27 @@ public class TagContentExtractor {
     public static void printArrayList(ArrayList<String> output) {
         for (int i = 0; i < output.size(); i++) {
             System.out.println(output.get(i));
+        }
+    }
+
+    public static void printToFile(ArrayList<String> output){
+        try {
+            File outputFile = new File("testOutput.txt");
+            outputFile.createNewFile();
+        } catch (IOException e){
+            System.out.println("An error occurred while making testOutput.txt");
+            e.printStackTrace();
+        }
+
+        try{
+            FileWriter writer = new FileWriter("testOutput.txt");
+            for (int i = 0; i < output.size(); i++){
+                writer.write(output.get(i) + "\n");
+            }
+            writer.close();
+        } catch (IOException e){
+            System.out.println("An error occured while writing to file");
+            e.printStackTrace();
         }
     }
 }
