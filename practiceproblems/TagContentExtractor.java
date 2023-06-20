@@ -33,30 +33,45 @@ public class TagContentExtractor {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(line);
         ArrayList<String> parsedLine = new ArrayList<>();
-        if(matcher.find()){
-            matcher.reset();
-            int numberOfMatch = 0;
-            while (matcher.find()){
-                numberOfMatch++;
-            }
-            matcher.reset();
-            while (matcher.find()) {
-                String startTag = matcher.group(1);
-                String endTag = matcher.group(3);
-                if (matchStartAndEndTags(startTag, endTag)) {
-                    parsedLine.add(matcher.group(2));
-                } else if (!matchStartAndEndTags(startTag, endTag) && numberOfMatch == 1){
-                    parsedLine.add("None");
-                }
-            }
-        } else {
+        int numberOfMatches = 0;
+
+        //Checks to see if there is anything that matche the HTML format for text inside of tags, if not we return None
+        if (!matcher.find()) {
             parsedLine.add("None");
+            return parsedLine;
+        }
+
+        //Checks to see if any HTML text that is found has matching start and end tags and records how many matches there are
+        matcher.reset();
+        while (matcher.find()) {
+            String startTag = matcher.group(1);
+            String endTag = matcher.group(3);
+            if (matchStartAndEndTags(startTag, endTag)){
+                numberOfMatches++;
+            }
+        }
+
+        // If there is no valid HTML with matching start and end tags we return None
+        if (numberOfMatches == 0){
+            parsedLine.add("None");
+            return parsedLine;
+        }
+
+        //If there are any matches left at this point we know they are valid and can add them to the parsed line
+        
+        matcher.reset();
+        while (matcher.find()) {
+            String startTag = matcher.group(1);
+            String endTag = matcher.group(3);
+            if (matchStartAndEndTags(startTag, endTag)) {
+                parsedLine.add(matcher.group(2));
+            } 
         }
         return parsedLine;
     }
 
     public static boolean matchStartAndEndTags(String startTag, String endTag) {
-        if (startTag.substring(1).endsWith((endTag.substring(2)))) {
+        if (startTag.substring(1).equals((endTag.substring(2)))) {
             return true;
         }
         return false;
