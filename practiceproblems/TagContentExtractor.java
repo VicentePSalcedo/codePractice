@@ -35,12 +35,17 @@ public class TagContentExtractor {
         ArrayList<String> parsedLine = new ArrayList<>();
         if(matcher.find()){
             matcher.reset();
+            int numberOfMatch = 0;
+            while (matcher.find()){
+                numberOfMatch++;
+            }
+            matcher.reset();
             while (matcher.find()) {
                 String startTag = matcher.group(1);
                 String endTag = matcher.group(3);
                 if (matchStartAndEndTags(startTag, endTag)) {
                     parsedLine.add(matcher.group(2));
-                } else {
+                } else if (!matchStartAndEndTags(startTag, endTag) && numberOfMatch == 1){
                     parsedLine.add("None");
                 }
             }
