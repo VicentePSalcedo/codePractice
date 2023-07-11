@@ -58,7 +58,6 @@ public class TagContentExtractor {
         }
 
         //If there are any matches left at this point we know they are valid and can add them to the parsed line
-        
         matcher.reset();
         while (matcher.find()) {
             String startTag = matcher.group(1);
